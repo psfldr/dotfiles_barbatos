@@ -1,0 +1,52 @@
+- name: Set up user
+  hosts: local
+  tasks:
+    - name: debug var
+      debug:
+        msg:
+          OS: "{{ ansible_os_family }}"
+          Host name: "{{ ansible_hostname }}"
+          User name: "{{ ansible_env.USER }}"
+    - name: Assert that user is root
+      assert:
+        that:
+          - ansible_env.USER == 'root'
+        fail_msg: "user must be root"
+        success_msg: "user is root"
+    - name: Ensure a locale exists
+      community.general.locale_gen: name={{ item }} state=present
+      with_items:
+        - en_US.UTF-8
+        - ja_JP.UTF-8
+    - name: Ensure group "wheel" exists
+      group:
+        name: wheel
+    - name: Make sure users in the wheel group can sudo without password
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^# %wheel ALL=(ALL) NOPASSWD: ALL'
+        line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+        validate: '/sbin/visudo -c -f %s'
+    - name: Ensure user '{{ user_name }}' exists
+      user:
+        name: "{{ user_name }}"
+        shell: /bin/bash
+        create_home: yes
+        generate_ssh_key: yes
+        comment: "{{ user_name }}"
+        group: wheel
+    - name: Rename id_rsa.pub -> authorized_keys
+      shell: "mv ~{{ user_name }}/.ssh/{id_rsa.pub,authorized_keys}"
+      args:
+        creates: "~{{ user_name }}/.ssh/authorized_keys"
+    - name: Copy secret key to root
+      copy:
+        src: "/home/{{ user_name }}/.ssh/id_rsa"
+        dest: "/root/id_rsa_{{ ansible_hostname }}_{{ user_name }}"
+        mode: 0600
+    - name: Install sudo
+      package:
+        name:
+          - sudo
+        state: present
