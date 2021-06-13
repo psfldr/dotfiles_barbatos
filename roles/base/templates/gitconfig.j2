@@ -1,17 +1,19 @@
 [user]
-    email = psfldr@gmail.com
-    name = psfldr
+    email = {{ GIT_EMAIL }}
+    name = {{ GIT_NAME }}
 [core]
     editor = nvim
-    excludesfile = {{ HOME_DIR }}/.gitignore_global
+    excludesfile = {{ HOME_DIR }}/.config/git/ignore
+[difftool]
+    prompt = true
+[diff]
+    tool = nvimdiff
 [merge]
-    tool = vimdiff
+    tool = nvimdiff
 [mergetool]
     prompt = true
-[difftool]
-    prompt = false
-[diff]
-    tool = vimdiff
+[difftool "nvimdiff"]
+    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 [ghq]
-    root={{ HOME_DIR }}/work/ghq
+    root={{ HOME_DIR }}/ghq
 

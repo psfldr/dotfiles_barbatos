@@ -7,6 +7,9 @@ Plug 'tomtom/tcomment_vim'          " コメント切り替え
 Plug 'terryma/vim-multiple-cursors' " 複数カーソル
 Plug 'tpope/vim-fugitive'           " VimからGitを使用する
 Plug 'ryanoasis/vim-devicons'       " ファイルタイプアイコン
+Plug 'easymotion/vim-easymotion'    " easymotion
+Plug 'haya14busa/incsearch.vim'     " easymotion
+Plug 'haya14busa/incsearch-easymotion.vim' " easymotion
 call plug#end()
 
 """"""""""""""""""""""""""""""
@@ -126,3 +129,38 @@ function! MyTabLine()
   return s
 endfunction
 set tabline=%!MyTabLine()
+
+""""""""""""""""""""""""""""""
+"" leader
+""""""""""""""""""""""""""""""
+let mapleader = "\<Space>"
+nnoremap <Leader>w :w<CR>
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+set notimeout
+set ttimeout
+
+""""""""""""""""""""""""""""""
+"" incsearch-easymotion
+""""""""""""""""""""""""""""""
+" You can use other keymappings like <C-l> instead of <CR> if you want to
+" use these mappings as default search and sometimes want to move cursor with
+" EasyMotion.
+function! s:incsearch_config(...) abort
+  return incsearch#util#deepextend(deepcopy({
+  \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+  \   'keymap': {
+  \     "\<CR>": '<Over>(easymotion)'
+  \   },
+  \   'is_expr': 0
+  \ }), get(a:, 1, {}))
+endfunction
+
+noremap <silent><expr> /  incsearch#go(<SID>incsearch_config())
+noremap <silent><expr> ?  incsearch#go(<SID>incsearch_config({'command': '?'}))
+noremap <silent><expr> g/ incsearch#go(<SID>incsearch_config({'is_stay': 1}))
+
