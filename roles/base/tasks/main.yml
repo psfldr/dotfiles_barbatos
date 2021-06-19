@@ -26,43 +26,10 @@
   package:
     name:
       - base-devel
-      - fzf
       - git
-      - neofetch
       - neovim
-      - tree
-      - tigervnc
-      - lxqt
-      - noto-fonts
-      - noto-fonts-cjk
-      - noto-fonts-emoji
-      - avahi
-      - nss-mdns
     state: present
   become: yes
-
-- name: Create user to aur_builder
-  user:
-    name: aur_builder
-    group: wheel
-  become: yes
-
-- name: Configure user aur_builder
-  lineinfile:
-    path: /etc/sudoers.d/11-install-aur_builder
-    line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
-    create: yes
-    validate: 'visudo -cf %s'
-  become: yes
-
-- name: Install AUR packages
-  aur:
-    use: makepkg
-    name:
-      - ghq
-      - gitflow-avh
-  become: yes
-  become_user: aur_builder
 
 # dotfiles
 - name: Ensure dotfiles (template) are placed
@@ -98,22 +65,3 @@
     creates: ~/.config/nvim/plugged
     executable: /bin/bash
     warn: no
-
-# Setup Avahi
-# https://wiki.archlinux.jp/index.php/Avahi#.E3.83.9B.E3.82.B9.E3.83.88.E5.90.8D.E3.81.AE.E8.A7.A3.E6.B1.BA
-- name: Make sure a service unit is running
-  systemd:
-    state: started
-    name: avahi-daemon.service
-  become: yes
-
-#  「hosts」の行に関して、「mdns_minimal」が入っていない場合のみ
-# 「resolve\s」の手前のスペースを
-# 「 mdns_minimal [NOTFOUND=return] 」に置き換える。
-- name: Make sure 'mdns_minimal [NOTFOUND=return]' exists in the line starts with 'hosts'
-  replace:
-    path: /etc/nsswitch.conf
-    regexp: '(?!.*mdns_minimal)(hosts:.*)(\s)(resolve\s.*)'
-    replace: '\1 mdns_minimal [NOTFOUND=return] \3'
-  become: yes
-

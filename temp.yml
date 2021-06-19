@@ -1,7 +1,0 @@
-- hosts: local
-  tasks:
-      - replace:
-          path: temp.txt
-          regexp: '(^Bob.*)( has )(.*$)'
-          replace: '\1 takes \3'
-
