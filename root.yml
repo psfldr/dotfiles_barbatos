@@ -1,5 +1,7 @@
 - name: Set up user
   hosts: local
+  vars_files:
+   - group_vars/local.yml
   tasks:
     - name: debug var
       debug:
@@ -33,24 +35,25 @@
         line: '%wheel ALL=(ALL) NOPASSWD: ALL'
         validate: '/sbin/visudo -c -f %s'
 
-    - name: Ensure user '{{ user_name }}' exists
+    - name: Ensure user '{{ USER_NAME }}' exists
       user:
-        name: "{{ user_name }}"
+        name: "{{ USER_NAME }}"
         shell: /bin/bash
         create_home: yes
         generate_ssh_key: yes
-        comment: "{{ user_name }}"
-        group: wheel
+        comment: "{{ USER_NAME }}"
+        groups:
+          - wheel
 
     - name: Rename id_rsa.pub -> authorized_keys
-      shell: "mv ~{{ user_name }}/.ssh/{id_rsa.pub,authorized_keys}"
+      shell: "mv ~{{ USER_NAME }}/.ssh/{id_rsa.pub,authorized_keys}"
       args:
-        creates: "~{{ user_name }}/.ssh/authorized_keys"
+        creates: "~{{ USER_NAME }}/.ssh/authorized_keys"
 
     - name: Copy secret key to root
       copy:
-        src: "/home/{{ user_name }}/.ssh/id_rsa"
-        dest: "/root/id_rsa_{{ ansible_hostname }}_{{ user_name }}"
+        src: "/home/{{ USER_NAME }}/.ssh/id_rsa"
+        dest: "/root/id_rsa_{{ ansible_hostname }}_{{ USER_NAME }}"
         mode: 0600
 
     - name: Install packages
