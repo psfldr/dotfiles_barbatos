@@ -44,6 +44,7 @@
         comment: "{{ USER_NAME }}"
         groups:
           - wheel
+          - audio
 
     - name: Rename id_rsa.pub -> authorized_keys
       shell: "mv ~{{ USER_NAME }}/.ssh/{id_rsa.pub,authorized_keys}"

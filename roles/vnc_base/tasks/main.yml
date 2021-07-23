@@ -5,6 +5,7 @@
       - xorg-xinit
       - tigervnc
       - virtualgl
+      - mesa-demos
       - noto-fonts
       - noto-fonts-cjk
       - noto-fonts-emoji
@@ -15,6 +16,9 @@
       - i3status
       - lm_sensors
       - dmenu
+      - alsa-utils
+      - pulseaudio
+      - pavucontrol
     state: present
   become: yes
 
@@ -76,3 +80,9 @@
       enabled: yes
   become: yes
 
+- name: "ALSA configuration"
+  lineinfile:
+      path: /etc/modprobe.d/alsa_base.conf
+      line: 'options snd_hda_intel model=alc256-asus-mic power_save=0 power_save_controller=N'
+      create: yes
+  become: yes
