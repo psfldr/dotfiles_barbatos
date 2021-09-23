@@ -1,0 +1,19 @@
+[user]
+    email = {{ GIT_EMAIL }}
+    name = {{ GIT_NAME }}
+[core]
+    editor = nvim
+    excludesfile = {{ HOME_DIR }}/.config/git/ignore
+[difftool]
+    prompt = true
+[diff]
+    tool = nvimdiff
+[merge]
+    tool = nvimdiff
+[mergetool]
+    prompt = true
+[difftool "nvimdiff"]
+    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+[ghq]
+    root={{ HOME_DIR }}/ghq
+

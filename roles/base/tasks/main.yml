@@ -1,0 +1,67 @@
+- name: Make sure XDG Base Directory Specification environment variables are defined
+  lineinfile:
+    path: /etc/profile
+    state: present
+    line: "{{ item }}"
+  with_items:
+    - export XDG_CONFIG_HOME=$HOME/.config
+    - export XDG_CACHE_HOME=$HOME/.cache
+    - export XDG_DATA_HOME=$HOME/.local/share
+    - export XDG_DATA_DIRS=/usr/local/share:/usr/share
+    - export XDG_CONFIG_DIRS=/etc/xdg
+  become: yes
+
+- name: Make sure XDG directories exists
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - ~/.cache
+    - ~/.local/share
+    - ~/.config
+    - ~/.config/git
+    - ~/.config/nvim
+
+- name: Install packages
+  package:
+    name:
+      - base-devel
+      - git
+      - neovim
+    state: present
+  become: yes
+
+# dotfiles
+- name: Ensure dotfiles (template) are placed
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: gitconfig.j2, dest: ~/.config/git/config }
+
+- name: Ensure dotfiles (files) are symlinked
+  file:
+    src: "{{ ansible_env.PWD }}/roles/base/files/{{ item.filename }}"
+    dest: "{{ item.dest_dir }}/{{ item.filename }}"
+    state: link
+  with_items:
+    - { filename: init.vim, dest_dir: ~/.config/nvim }
+    - { filename: ignore, dest_dir: ~/.config/git }
+
+# Setup Neovim
+- name: Ensures autoload dir exists
+  file:
+    path: ~/.local/share/nvim/site/autoload
+    state: directory
+
+- name: Download Vim-Plug script
+  get_url:
+    url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    dest: ~/.local/share/nvim/site/autoload/plug.vim
+
+- name: Install Vim-Plug plugins
+  shell: nvim --headless +PlugInstall +qall
+  args:
+    creates: ~/.config/nvim/plugged
+    executable: /bin/bash
+    warn: no

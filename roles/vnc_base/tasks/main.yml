@@ -1,0 +1,88 @@
+- name: Install packages
+  package:
+    name:
+      - xorg
+      - xorg-xinit
+      - tigervnc
+      - virtualgl
+      - mesa-demos
+      - noto-fonts
+      - noto-fonts-cjk
+      - noto-fonts-emoji
+      - fcitx-im
+      - fcitx-mozc
+      - fcitx-configtool
+      - i3-wm
+      - i3status
+      - lm_sensors
+      - dmenu
+      - alsa-utils
+      - pulseaudio
+      - pavucontrol
+    state: present
+  become: yes
+
+- name: aur install
+  aur:
+    use: makepkg
+    name:
+      - ttf-cica
+  become: yes
+  become_user: aur_builder
+
+- name: Make sure environment variables are defined
+  lineinfile:
+    path: /etc/profile
+    state: present
+    line: "{{ item }}"
+  with_items:
+    - export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
+  become: yes
+
+- name: Make sure directories exists
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - ~/.config/X11
+    - ~/.config/i3
+    - ~/.vnc
+
+- name: Ensure dotfiles (files) are symlinked
+  file:
+    src: "{{ ansible_env.PWD }}/roles/vnc_base/files/{{ item.filename }}"
+    dest: "{{ item.dest }}"
+    state: link
+  with_items:
+    - { filename: X11/xinitrc, dest: ~/.config/X11/xinitrc }
+    - { filename: i3/config, dest: ~/.config/i3/config }
+    - { filename: i3status/config, dest: ~/.config/i3status/config }
+    - { filename: vnc/config, dest: ~/.vnc/config }
+    - { filename: vnc/xstartup, dest: ~/.vnc/xstartup }
+    - { filename: misc/xprofile, dest: ~/.xprofile }
+    - { filename: misc/Xmodmap, dest: ~/.Xmodmap }
+
+# TODO: password
+- name: "Generate vnc password"
+  shell: |
+      echo psfldr | vncpasswd -f > ~/.vnc/passwd
+
+- name: "Change the permission to 600 for ~/.vnc/passwd file"
+  file:
+      path: ~/.vnc/passwd
+      mode: 0600
+
+- name: "Start & enable the vncserver"
+  systemd:
+      state: started
+      daemon_reload: yes
+      name: "vncserver@:1"
+      enabled: yes
+  become: yes
+
+- name: "ALSA configuration"
+  lineinfile:
+      path: /etc/modprobe.d/alsa_base.conf
+      line: 'options snd_hda_intel model=alc256-asus-mic power_save=0 power_save_controller=N'
+      create: yes
+  become: yes
