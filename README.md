@@ -14,3 +14,12 @@ root.ymlは初回セットアップの時だけ実行する想定で、内容は
 ```
 ansible-playbook root.yml
 ```
+
+リポジトリに含めていない認証情報を設定。
+`~/.netrc` を作成。GitHubでアクセストークンを取得してpasswordとして書く。
+
+```
+machine github.com
+login psfldr
+password xxxxxx
+```
