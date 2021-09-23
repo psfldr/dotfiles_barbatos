@@ -1,0 +1,26 @@
+- name: Set up localhost
+  hosts: local
+  pre_tasks:
+    - name: Show variables
+      debug:
+        msg:
+          OS: "{{ ansible_os_family }}"
+          Host name: "{{ ansible_hostname }}"
+          User name: "{{ ansible_env.USER }}"
+    - name: Assert that user is {{ USER_NAME }}
+      assert:
+        that:
+          - ansible_env.USER == '{{ USER_NAME }}'
+        fail_msg: "user must be {{ USER_NAME }}"
+        success_msg: "user is {{ USER_NAME }}"
+    - name: Run the equivalent of "pacman -Syu" as a separate step
+      pacman:
+        update_cache: yes
+        upgrade: yes
+      become: yes
+  roles:
+    - kewlfft.aur
+    - {role: base, tags: ['base']}
+    - {role: vnc_base, tags: ['vnc_base']}
+    - {role: misc, tags: ['misc']}
+

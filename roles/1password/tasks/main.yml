@@ -1,0 +1,22 @@
+# https://aur.archlinux.org/packages/1password/
+- name: Import GPG key (returns OK even if something was changed)
+  shell: curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --import
+  become: yes
+  become_user: aur_builder
+  changed_when: False
+
+- name: Import GPG key (returns OK even if something was changed)
+  shell: curl -sS  https://linux.dropbox.com/fedora/rpm-public-key.asc | gpg --import
+  become: yes
+  become_user: aur_builder
+  changed_when: False
+
+- name: Install AUR packages
+  aur:
+    use: makepkg
+    name:
+      - 1password
+      - dropbox
+  become: yes
+  become_user: aur_builder
+
