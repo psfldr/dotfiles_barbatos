@@ -16,7 +16,8 @@ ansible-playbook root.yml
 ```
 
 リポジトリに含めていない認証情報を設定。
-`~/.netrc` を作成。GitHubでアクセストークンを取得してpasswordとして書く。
+`~/.netrc` を作成。パーミッションは600。
+GitHubでアクセストークンを取得してpasswordとして書く。
 
 ```
 machine github.com

@@ -1,0 +1,32 @@
+# https://wiki.archlinux.jp/index.php/Docker#.E3.82.A4.E3.83.B3.E3.82.B9.E3.83.88.E3.83.BC.E3.83.AB
+
+- name: Install packages
+  package:
+    name:
+      - docker
+      - docker-compose
+    state: present
+  become: yes
+
+# Setup Neovim
+- name: Ensures docker dir exists
+  file:
+    path: /etc/docker
+    state: directory
+  become: yes
+
+- name: Ensure dotfiles (files) are symlinked
+  file:
+    src: "{{ ansible_env.PWD }}/roles/docker/files/{{ item.filename }}"
+    dest: "{{ item.dest_dir }}/{{ item.filename }}"
+    state: link
+  with_items:
+    - { filename: daemon.json, dest_dir: /etc/docker }
+  become: yes
+
+- name: Make sure the Docker service is running
+  systemd:
+    name: docker.service
+    state: started
+    enabled: yes
+  become: yes
