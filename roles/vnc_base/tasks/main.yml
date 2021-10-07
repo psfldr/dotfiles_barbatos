@@ -24,7 +24,7 @@
 
 - name: aur install
   aur:
-    use: makepkg
+    use: yay
     name:
       - ttf-cica
   become: yes

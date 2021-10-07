@@ -10,7 +10,7 @@
 
 - name: aur install
   aur:
-    use: makepkg
+    use: yay
     name:
       - google-chrome
   become: yes

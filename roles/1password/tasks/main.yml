@@ -13,7 +13,7 @@
 
 - name: Install AUR packages
   aur:
-    use: makepkg
+    use: yay
     name:
       - 1password
       - dropbox
