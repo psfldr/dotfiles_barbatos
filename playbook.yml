@@ -24,4 +24,5 @@
     - {role: vnc_base, tags: ['vnc_base']}
     - {role: misc, tags: ['misc']}
     - {role: docker, tags: ['docker']}
+    - {role: unity, tags: ['unity']}
 

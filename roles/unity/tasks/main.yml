@@ -1,0 +1,18 @@
+- name: Install packages
+  package:
+    name:
+      - dotnet-runtime
+      - dotnet-sdk
+      - mono
+      - mono-msbuild
+      - mono-msbuild-sdkresolver
+    state: present
+  become: yes
+
+- name: aur install
+  aur:
+    use: yay
+    name:
+      - unityhub
+  become: yes
+  become_user: aur_builder
