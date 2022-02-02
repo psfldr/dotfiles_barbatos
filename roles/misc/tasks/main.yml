@@ -4,7 +4,13 @@
       - fzf
       - neofetch
       - tree
-      - code
+      - htop
+      - usbutils
+      - kbd
+      - eog
+      - bluez
+      - bluez-utils
+      - blueman
     state: present
   become: yes
 
@@ -13,5 +19,16 @@
     use: yay
     name:
       - google-chrome
+      - visual-studio-code-bin
+      - twmn-git
   become: yes
   become_user: aur_builder
+
+# Bluetoothのためユーザーをlpグループに追加。
+# https://wiki.archlinux.jp/index.php/Bluetooth
+- name: adding existing user '{{ USER_NAME }}' to group lp
+  user:
+    name: '{{ USER_NAME }}'
+    groups: lp
+    append: yes
+  become: yes
