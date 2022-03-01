@@ -11,6 +11,10 @@
       - bluez
       - bluez-utils
       - blueman
+      - gnome
+      - dconf-editor
+      # vscode GlassIt Linux https://marketplace.visualstudio.com/items?itemName=nowsci.glassit-linux
+      - wmctrl
     state: present
   become: yes
 
@@ -20,7 +24,8 @@
     name:
       - google-chrome
       - visual-studio-code-bin
-      - twmn-git
+      - chrome-gnome-shell
+      - slack-desktop
   become: yes
   become_user: aur_builder
 
@@ -31,4 +36,11 @@
     name: '{{ USER_NAME }}'
     groups: lp
     append: yes
+  become: yes
+
+- name: Make sure the GDM service is running
+  systemd:
+    name: gdm.service
+    state: started
+    enabled: yes
   become: yes
