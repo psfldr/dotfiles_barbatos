@@ -3,6 +3,7 @@
     name:
       - xorg
       - xorg-xinit
+      - xorg-xmodmap
       - tigervnc
       - virtualgl
       - mesa-demos
