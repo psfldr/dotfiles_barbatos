@@ -44,9 +44,11 @@
     src: "{{ ansible_env.PWD }}/roles/base/files/{{ item.filename }}"
     dest: "{{ item.dest_dir }}/{{ item.filename }}"
     state: link
+    force: yes
   with_items:
     - { filename: init.vim, dest_dir: ~/.config/nvim }
     - { filename: ignore, dest_dir: ~/.config/git }
+    - { filename: .bashrc, dest_dir: "~" }
 
 # Setup Neovim
 - name: Ensures autoload dir exists

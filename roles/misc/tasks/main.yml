@@ -15,6 +15,7 @@
       - dconf-editor
       # vscode GlassIt Linux https://marketplace.visualstudio.com/items?itemName=nowsci.glassit-linux
       - wmctrl
+      - python-pipenv
     state: present
   become: yes
 
@@ -26,6 +27,7 @@
       - visual-studio-code-bin
       - chrome-gnome-shell
       - slack-desktop
+      - asdf-vm
   become: yes
   become_user: aur_builder
 
@@ -43,4 +45,68 @@
     name: gdm.service
     state: started
     enabled: yes
+  become: yes
+
+# genshin test
+- name: Install packages
+  package:
+    name:
+      - lutris
+      - vulkan-intel
+      - vulkan-tools
+      - xdelta3
+      - xterm
+      # wine
+      - wine-staging
+      - giflib
+      - lib32-giflib
+      - libpng
+      - lib32-libpng
+      - libldap
+      - lib32-libldap
+      - gnutls
+      - lib32-gnutls
+      - mpg123
+      - lib32-mpg123
+      - openal
+      - lib32-openal
+      - v4l-utils
+      - lib32-v4l-utils
+      - libpulse
+      - lib32-libpulse
+      - libgpg-error
+      - lib32-libgpg-error
+      - alsa-plugins
+      - lib32-alsa-plugins
+      - alsa-lib
+      - lib32-alsa-lib
+      - libjpeg-turbo
+      - lib32-libjpeg-turbo
+      - sqlite
+      - lib32-sqlite
+      - libxcomposite
+      - lib32-libxcomposite
+      - libxinerama
+      - lib32-libgcrypt
+      - libgcrypt
+      - lib32-libxinerama
+      - ncurses
+      - lib32-ncurses
+      - opencl-icd-loader
+      - lib32-opencl-icd-loader
+      - libxslt
+      - lib32-libxslt
+      - libva
+      - lib32-libva
+      - gtk3
+      - lib32-gtk3
+      - gst-plugins-base-libs
+      - lib32-gst-plugins-base-libs
+      - vulkan-icd-loader
+      - lib32-vulkan-icd-loader
+      # 自動ツール
+      - xdotool
+      # 日本語文字化け対策
+      - winetricks
+    state: present
   become: yes
