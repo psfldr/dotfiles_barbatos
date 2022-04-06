@@ -16,6 +16,8 @@
       # vscode GlassIt Linux https://marketplace.visualstudio.com/items?itemName=nowsci.glassit-linux
       - wmctrl
       - python-pipenv
+      - tk
+      - tesseract
     state: present
   become: yes
 

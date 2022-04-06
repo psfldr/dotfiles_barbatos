@@ -19,7 +19,7 @@
         upgrade: yes
       become: yes
   roles:
-    - role: asdf
+    - role: cimon-io.asdf
       asdf_user: "{{ USER_NAME }}"
       asdf_plugins:
       - name: "python"
