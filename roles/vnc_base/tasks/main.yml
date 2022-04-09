@@ -3,6 +3,7 @@
     name:
       - xorg
       - xorg-xinit
+      - xorg-xmodmap
       - tigervnc
       - virtualgl
       - mesa-demos
@@ -24,7 +25,7 @@
 
 - name: aur install
   aur:
-    use: makepkg
+    use: yay
     name:
       - ttf-cica
   become: yes

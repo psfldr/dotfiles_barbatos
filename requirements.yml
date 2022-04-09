@@ -1,2 +1,4 @@
 - src: https://github.com/kewlfft/ansible-aur
   name: kewlfft.aur
+- src: https://github.com/cimon-io/ansible-role-asdf
+  name: cimon-io.asdf

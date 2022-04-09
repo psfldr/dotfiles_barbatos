@@ -44,9 +44,11 @@
     src: "{{ ansible_env.PWD }}/roles/base/files/{{ item.filename }}"
     dest: "{{ item.dest_dir }}/{{ item.filename }}"
     state: link
+    force: yes
   with_items:
     - { filename: init.vim, dest_dir: ~/.config/nvim }
     - { filename: ignore, dest_dir: ~/.config/git }
+    - { filename: .bashrc, dest_dir: "~" }
 
 # Setup Neovim
 - name: Ensures autoload dir exists
@@ -65,3 +67,11 @@
     creates: ~/.config/nvim/plugged
     executable: /bin/bash
     warn: no
+
+- name: Install AUR helper
+  aur:
+    use: makepkg
+    name:
+      - yay
+  become: yes
+  become_user: aur_builder
