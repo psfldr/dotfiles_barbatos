@@ -18,6 +18,8 @@
       - python-pipenv
       - tk
       - tesseract
+      - wireless_tools
+      - networkmanager
     state: present
   become: yes
 
@@ -30,6 +32,7 @@
       - chrome-gnome-shell
       - slack-desktop
       - asdf-vm
+      - opendrop
   become: yes
   become_user: aur_builder
 
@@ -45,6 +48,14 @@
 - name: Make sure the GDM service is running
   systemd:
     name: gdm.service
+    state: started
+    enabled: yes
+  become: yes
+
+
+- name: Make sure the NetworkManager service is running
+  systemd:
+    name: NetworkManager.service
     state: started
     enabled: yes
   become: yes
