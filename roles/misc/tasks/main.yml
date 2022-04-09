@@ -22,7 +22,7 @@
   become: yes
 
 - name: aur install
-  aur:
+  kewlfft.aur.aur:
     use: yay
     name:
       - google-chrome

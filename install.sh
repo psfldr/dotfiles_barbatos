@@ -1,4 +1,4 @@
-ansible-galaxy install -p roles -r requirements.yml
+ansible-galaxy install -r requirements.yml
 if [ $# -gt 0 ];then
     ansible-playbook -t $@ playbook.yml
 else

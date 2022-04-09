@@ -69,7 +69,7 @@
     warn: no
 
 - name: Install AUR helper
-  aur:
+  kewlfft.aur.aur:
     use: makepkg
     name:
       - yay
