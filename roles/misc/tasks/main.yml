@@ -8,16 +8,14 @@
       - usbutils
       - kbd
       - eog
-      - bluez
-      - bluez-utils
-      - blueman
-      - gnome
-      - dconf-editor
       # vscode GlassIt Linux https://marketplace.visualstudio.com/items?itemName=nowsci.glassit-linux
       - wmctrl
       - python-pipenv
       - wireless_tools
       - networkmanager
+      - xsel  # 2022/04/23 kivyのプログラミングで必要になった。
+      - python-cookiecutter
+      - blender
     state: present
   become: yes
 
@@ -25,38 +23,11 @@
   kewlfft.aur.aur:
     use: yay
     name:
-      - google-chrome
-      - visual-studio-code-bin
-      - chrome-gnome-shell
       - slack-desktop
       - asdf-vm
       - opendrop
   become: yes
   become_user: aur_builder
-
-# Bluetoothのためユーザーをlpグループに追加。
-# https://wiki.archlinux.jp/index.php/Bluetooth
-- name: adding existing user '{{ USER_NAME }}' to group lp
-  user:
-    name: '{{ USER_NAME }}'
-    groups: lp
-    append: yes
-  become: yes
-
-- name: Make sure the GDM service is running
-  systemd:
-    name: gdm.service
-    state: started
-    enabled: yes
-  become: yes
-
-
-- name: Make sure the NetworkManager service is running
-  systemd:
-    name: NetworkManager.service
-    state: started
-    enabled: yes
-  become: yes
 
 # genshin test
 - name: Install packages
