@@ -24,7 +24,7 @@
       asdf_plugins:
       - name: "python"
     - {role: base, tags: ['base']}
-    - {role: desktop_environment, tags: ['desktop_environment']}
+    - {role: de, tags: ['de']}
     - {role: misc, tags: ['misc']}
     - {role: docker, tags: ['docker']}
     - {role: unity, tags: ['unity']}

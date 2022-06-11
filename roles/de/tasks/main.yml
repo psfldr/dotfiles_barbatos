@@ -52,7 +52,7 @@
 
 - name: Ensure dotfiles (files) are symlinked
   file:
-    src: "{{ ansible_env.PWD }}/roles/desktop_environment/files/{{ item.filename }}"
+    src: "{{ ansible_env.PWD }}/roles/de/files/{{ item.filename }}"
     dest: "{{ item.dest }}"
     state: link
   with_items:
