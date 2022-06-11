@@ -25,12 +25,13 @@
     state: present
   become: yes
 
-- name: aur install
+- name: aur install (libinput-three-finger-drag は既存のlibinputと競合するかも。その場合は手動でthree-fingerを優先してインストールする)
   kewlfft.aur.aur:
     use: yay
     name:
       - ttf-cica
       - libinput-gestures
+      - libinput-three-finger-drag
   become: yes
   become_user: aur_builder
 
