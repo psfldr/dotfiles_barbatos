@@ -1,0 +1,22 @@
+{
+    "workbench.colorTheme": "Nord",
+    "omnisharp.useGlobalMono": "always",
+    "omnisharp.path": "latest",
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j", "j"],
+            "after": ["<Esc>"]
+        }
+    ],
+    "editor.minimap.maxColumn": 0,
+    "vim.easymotion": true,
+    "vim.leader": "<space>",
+    "editor.fontFamily": "'Cica', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+    "window.titleBarStyle": "custom",
+    "terminal.integrated.gpuAcceleration": "off",
+    "git.confirmSync": false,
+    "git.enableSmartCommit": true,
+    "glassit-linux.opacity": 93,
+    "git.detectSubmodules": false,
+    "git.detectSubmodulesLimit": 0
+}

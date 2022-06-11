@@ -23,14 +23,34 @@
   kewlfft.aur.aur:
     use: yay
     name:
+      - google-chrome
+      - visual-studio-code-bin
+      - chrome-gnome-shell
       - slack-desktop
       - asdf-vm
       - opendrop
   become: yes
   become_user: aur_builder
 
+# vscode setting
+- name: Make sure vscode setting directories exists
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - ~/.config/Code/User
+
+- name: Ensure setting files are symlinked
+  file:
+    src: "{{ ansible_env.PWD }}/roles/misc/files/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+  with_items:
+    - { src: vscode/settings.json, dest: ~/.config/Code/User/settings.json }
+    - { src: vscode/keybindings.json, dest: ~/.config/Code/User/keybindings.json }
+
 # genshin test
-- name: Install packages
+- name: Install packages (genshin test)
   package:
     name:
       - lutris

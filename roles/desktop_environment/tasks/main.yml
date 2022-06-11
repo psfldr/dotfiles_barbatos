@@ -30,9 +30,6 @@
     use: yay
     name:
       - ttf-cica
-      - google-chrome
-      - visual-studio-code-bin
-      - chrome-gnome-shell
       - libinput-gestures
   become: yes
   become_user: aur_builder
