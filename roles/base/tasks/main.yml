@@ -98,3 +98,25 @@
     - { src: color.pkla, dest: /etc/polkit-1/localauthority.conf.d/50-local.d/color.pkla }
     - { src: org.freedesktop.logind.policy, dest: /etc/polkit-1/localauthority.conf.d/org.freedesktop.logind.policy }
   become: yes
+
+# Microsoft Compact Designer Keyboard
+# 「あ」のキーと「A」のキーをIME有効/無効に割り当てる
+# Capsをctrlに置き換える。
+
+- name: Ensures hwdb dir exists
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /etc/udev/hwdb.d/
+  become: yes
+
+- name: Ensure hwdb files are symlinked
+  file:
+    src: "{{ ansible_env.PWD }}/roles/base/files/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+    force: yes
+  with_items:
+    - { src: 90-custom-keyboard.hwdb, dest: /etc/udev/hwdb.d/90-custom-keyboard.hwdb }
+  become: yes
