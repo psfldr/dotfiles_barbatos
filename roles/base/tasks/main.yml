@@ -100,15 +100,18 @@
   become: yes
 
 # Microsoft Compact Designer Keyboard
+# [Bluetooth - ArchWiki](https://wiki.archlinux.jp/index.php/Bluetooth#.E3.82.B5.E3.82.B9.E3.83.9A.E3.83.B3.E3.83.89.E3.81.8B.E3.82.89.E3.81.AE.E5.BE.A9.E5.B8.B0)
+# [スキャンコードをキーコードにマップ - ArchWiki](https://wiki.archlinux.jp/index.php/%E3%82%B9%E3%82%AD%E3%83%A3%E3%83%B3%E3%82%B3%E3%83%BC%E3%83%89%E3%82%92%E3%82%AD%E3%83%BC%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AB%E3%83%9E%E3%83%83%E3%83%97)
 # 「あ」のキーと「A」のキーをIME有効/無効に割り当てる
 # Capsをctrlに置き換える。
-
+# サスペンドからの復帰時に接続する 
 - name: Ensures hwdb dir exists
   file:
     path: "{{ item }}"
     state: directory
   with_items:
     - /etc/udev/hwdb.d/
+    - /etc/udev/rules.d/
   become: yes
 
 - name: Ensure hwdb files are symlinked
@@ -119,4 +122,5 @@
     force: yes
   with_items:
     - { src: 90-custom-keyboard.hwdb, dest: /etc/udev/hwdb.d/90-custom-keyboard.hwdb }
+    - { src: 91-keyboardmousewakeup.rules, dest: /etc/udev/rules.d/91-keyboardmousewakeup.rules }
   become: yes
