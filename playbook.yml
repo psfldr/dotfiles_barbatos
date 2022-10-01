@@ -23,10 +23,10 @@
       asdf_user: "{{ USER_NAME }}"
       asdf_plugins:
       - name: "python"
-    - kewlfft.aur
     - {role: base, tags: ['base']}
-    - {role: vnc_base, tags: ['vnc_base']}
+    - {role: de, tags: ['de']}
     - {role: misc, tags: ['misc']}
     - {role: docker, tags: ['docker']}
     - {role: unity, tags: ['unity']}
+    - {role: audio, tags: ['audio']}
 

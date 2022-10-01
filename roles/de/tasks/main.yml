@@ -1,0 +1,120 @@
+- name: Install packages
+  package:
+    name:
+      - xorg
+      - xorg-xinit
+      - xorg-xmodmap
+      - noto-fonts
+      - noto-fonts-cjk
+      - noto-fonts-emoji
+      - fcitx-im
+      - fcitx-mozc
+      - fcitx-configtool
+      - lm_sensors
+      - dmenu
+      - alsa-utils
+      - pulseaudio
+      - pulseaudio-equalizer
+      - pavucontrol
+      - bluez
+      - bluez-utils
+      - bluez-libs
+      - pulseaudio-bluetooth
+      - blueman
+      - gnome
+      - dconf-editor
+      - xf86-input-libinput
+      - xorg-xinput
+    state: present
+  become: yes
+
+- name: aur install (libinput-three-finger-drag は既存のlibinputと競合するかも。その場合は手動でthree-fingerを優先してインストールする)
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - ttf-cica
+      - libinput-gestures
+      - libinput-three-finger-drag
+  become: yes
+  become_user: aur_builder
+
+- name: Make sure environment variables are defined
+  lineinfile:
+    path: /etc/profile
+    state: present
+    line: "{{ item }}"
+  with_items:
+    - export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
+  become: yes
+
+- name: Make sure directories exists
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - ~/.config/X11
+
+- name: Ensure dotfiles (files) are symlinked
+  file:
+    src: "{{ ansible_env.PWD }}/roles/de/files/{{ item.filename }}"
+    dest: "{{ item.dest }}"
+    state: link
+  with_items:
+    - { filename: X11/xinitrc, dest: ~/.config/X11/xinitrc }
+    - { filename: misc/xprofile, dest: ~/.xprofile }
+    - { filename: misc/Xmodmap, dest: ~/.Xmodmap }
+    - { filename: misc/libinput-gestures.conf, dest: ~/.config/libinput-gestures.conf }
+
+- name: "ALSA configuration"
+  lineinfile:
+      path: /etc/modprobe.d/alsa_base.conf
+      line: 'options snd_hda_intel model=alc256-asus-mic power_save=0 power_save_controller=N'
+      create: yes
+  become: yes
+
+# Bluetoothのためユーザーをlpグループに追加。
+# https://wiki.archlinux.jp/index.php/Bluetooth
+- name: adding existing user '{{ USER_NAME }}' to group lp, input
+  user:
+    name: '{{ USER_NAME }}'
+    groups:
+      - lp
+      - input
+    append: yes
+  become: yes
+
+- name: Make sure the GDM service is running
+  systemd:
+    name: gdm.service
+    state: started
+    enabled: yes
+  become: yes
+
+- name: Make sure the NetworkManager service is running
+  systemd:
+    name: NetworkManager.service
+    state: started
+    enabled: yes
+  become: yes
+
+# Bluetooth - ArchWikiBluetooth - ArchWiki 起動後に自動で有効にする
+# https://wiki.archlinux.jp/index.php/Bluetooth#.E8.B5.B7.E5.8B.95.E5.BE.8C.E3.81.AB.E8.87.AA.E5.8B.95.E3.81.A7.E6.9C.89.E5.8A.B9.E3.81.AB.E3.81.99.E3.82.8B
+- name: Make sure bluetooth power-on after boot/resume
+  lineinfile:
+    path: /etc/bluetooth/main.conf
+    state: present
+    regexp: '^#AutoEnable=false'
+    line: 'AutoEnable=true'
+  become: yes
+
+# pulseaudio設定
+# PulseAudio - ArchWiki
+# https://wiki.archlinux.jp/index.php/PulseAudio#.E3.82.A4.E3.83.B3.E3.82.B9.E3.83.88.E3.83.BC.E3.83.AB
+- name: Ensure pulseaudio config files are symlinked
+  file:
+    src: "{{ ansible_env.PWD }}/roles/de/files/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+    force: yes
+  with_items:
+    - { src: default.pa, dest: ~/.config/pulse/default.pa }

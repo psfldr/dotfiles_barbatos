@@ -12,7 +12,7 @@
   changed_when: False
 
 - name: Install AUR packages
-  aur:
+  kewlfft.aur.aur:
     use: yay
     name:
       - 1password

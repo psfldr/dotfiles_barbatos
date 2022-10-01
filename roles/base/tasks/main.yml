@@ -69,9 +69,58 @@
     warn: no
 
 - name: Install AUR helper
-  aur:
+  kewlfft.aur.aur:
     use: makepkg
     name:
       - yay
   become: yes
   become_user: aur_builder
+
+# suppress "Authentication is required to create a color profile"
+# https://unix.stackexchange.com/questions/417906/authentication-is-required-to-create-a-color-profile
+# GDM - ArchWiki パスワードなしシャットダウン
+# https://wiki.archlinux.jp/index.php/GDM#.E3.83.91.E3.82.B9.E3.83.AF.E3.83.BC.E3.83.89.E3.81.AA.E3.81.97.E3.82.B7.E3.83.A3.E3.83.83.E3.83.88.E3.83.80.E3.82.A6.E3.83.B3
+- name: Ensures polkit dir exists
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /etc/polkit-1/localauthority.conf.d/50-local.d
+  become: yes
+
+- name: Ensure polkit files are symlinked
+  file:
+    src: "{{ ansible_env.PWD }}/roles/base/files/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+    force: yes
+  with_items:
+    - { src: color.pkla, dest: /etc/polkit-1/localauthority.conf.d/50-local.d/color.pkla }
+    - { src: org.freedesktop.logind.policy, dest: /etc/polkit-1/localauthority.conf.d/org.freedesktop.logind.policy }
+  become: yes
+
+# Microsoft Compact Designer Keyboard
+# [Bluetooth - ArchWiki](https://wiki.archlinux.jp/index.php/Bluetooth#.E3.82.B5.E3.82.B9.E3.83.9A.E3.83.B3.E3.83.89.E3.81.8B.E3.82.89.E3.81.AE.E5.BE.A9.E5.B8.B0)
+# [スキャンコードをキーコードにマップ - ArchWiki](https://wiki.archlinux.jp/index.php/%E3%82%B9%E3%82%AD%E3%83%A3%E3%83%B3%E3%82%B3%E3%83%BC%E3%83%89%E3%82%92%E3%82%AD%E3%83%BC%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AB%E3%83%9E%E3%83%83%E3%83%97)
+# 「あ」のキーと「A」のキーをIME有効/無効に割り当てる
+# Capsをctrlに置き換える。
+# サスペンドからの復帰時に接続する 
+- name: Ensures hwdb dir exists
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /etc/udev/hwdb.d/
+    - /etc/udev/rules.d/
+  become: yes
+
+- name: Ensure hwdb files are symlinked
+  file:
+    src: "{{ ansible_env.PWD }}/roles/base/files/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+    force: yes
+  with_items:
+    - { src: 90-custom-keyboard.hwdb, dest: /etc/udev/hwdb.d/90-custom-keyboard.hwdb }
+    - { src: 91-keyboardmousewakeup.rules, dest: /etc/udev/rules.d/91-keyboardmousewakeup.rules }
+  become: yes
