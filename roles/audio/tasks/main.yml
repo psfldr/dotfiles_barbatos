@@ -1,0 +1,21 @@
+- name: Install packages
+  package:
+    name:
+      - jack2
+      # https://wiki.archlinux.jp/index.php/PulseAudio/%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB#PulseAudio_.E3.81.A8_JACK
+      - cadence
+      - pulseaudio-jack
+      - reaper
+      # wineでinstallしたVSTプラグインをlinuxと同期する。
+      - yabridge
+      - yabridgectl
+      - a2jmidid
+    state: present
+  become: yes
+
+# - name: "ALSA configuration"
+#   lineinfile:
+#       path: /etc/modprobe.d/alsa_base.conf
+#       line: 'options snd_hda_intel model=alc256-asus-mic power_save=0 power_save_controller=N'
+#       create: yes
+#   become: yes

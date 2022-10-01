@@ -16,6 +16,8 @@
       - xsel  # 2022/04/23 kivyのプログラミングで必要になった。
       - python-cookiecutter
       - blender
+      - geary
+      - aws-vault
     state: present
   become: yes
 
@@ -29,6 +31,7 @@
       - slack-desktop
       - asdf-vm
       - opendrop
+      - notion-app
   become: yes
   become_user: aur_builder
 

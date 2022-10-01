@@ -28,4 +28,5 @@
     - {role: misc, tags: ['misc']}
     - {role: docker, tags: ['docker']}
     - {role: unity, tags: ['unity']}
+    - {role: audio, tags: ['audio']}
 

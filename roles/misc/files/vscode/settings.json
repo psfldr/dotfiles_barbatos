@@ -13,10 +13,15 @@
     "vim.leader": "<space>",
     "editor.fontFamily": "'Cica', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
     "window.titleBarStyle": "custom",
-    "terminal.integrated.gpuAcceleration": "off",
     "git.confirmSync": false,
     "git.enableSmartCommit": true,
     "glassit-linux.opacity": 93,
     "git.detectSubmodules": false,
-    "git.detectSubmodulesLimit": 0
+    "git.detectSubmodulesLimit": 0,
+    "extensions.ignoreRecommendations": true,
+    "terminal.integrated.fontSize": 15,
+    "editor.rulers": [
+        79
+    ],
+    "python.terminal.activateEnvironment": false
 }

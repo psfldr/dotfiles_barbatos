@@ -14,9 +14,12 @@
       - dmenu
       - alsa-utils
       - pulseaudio
+      - pulseaudio-equalizer
       - pavucontrol
       - bluez
       - bluez-utils
+      - bluez-libs
+      - pulseaudio-bluetooth
       - blueman
       - gnome
       - dconf-editor
@@ -103,3 +106,15 @@
     regexp: '^#AutoEnable=false'
     line: 'AutoEnable=true'
   become: yes
+
+# pulseaudio設定
+# PulseAudio - ArchWiki
+# https://wiki.archlinux.jp/index.php/PulseAudio#.E3.82.A4.E3.83.B3.E3.82.B9.E3.83.88.E3.83.BC.E3.83.AB
+- name: Ensure pulseaudio config files are symlinked
+  file:
+    src: "{{ ansible_env.PWD }}/roles/de/files/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+    force: yes
+  with_items:
+    - { src: default.pa, dest: ~/.config/pulse/default.pa }
