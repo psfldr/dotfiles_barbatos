@@ -7,9 +7,6 @@
       - noto-fonts
       - noto-fonts-cjk
       - noto-fonts-emoji
-      - fcitx-im
-      - fcitx-mozc
-      - fcitx-configtool
       - lm_sensors
       - dmenu
       - alsa-utils
@@ -25,16 +22,23 @@
       - dconf-editor
       - xf86-input-libinput
       - xorg-xinput
+      - libinput
+      - rust
+      # TODO: packages of fcitx5-im group.
+      - fcitx5
+      - fcitx5-configtool
+      - fcitx5-qt
+      - fcitx5-gtk
     state: present
   become: yes
 
-- name: aur install (libinput-three-finger-drag は既存のlibinputと競合するかも。その場合は手動でthree-fingerを優先してインストールする)
+- name: aur install
   kewlfft.aur.aur:
     use: yay
     name:
       - ttf-cica
       - libinput-gestures
-      - libinput-three-finger-drag
+      - fcitx5-mozc-ut
   become: yes
   become_user: aur_builder
 
@@ -53,6 +57,7 @@
     state: directory
   with_items:
     - ~/.config/X11
+    - ~/.config/environment.d
 
 - name: Ensure dotfiles (files) are symlinked
   file:
@@ -64,6 +69,7 @@
     - { filename: misc/xprofile, dest: ~/.xprofile }
     - { filename: misc/Xmodmap, dest: ~/.Xmodmap }
     - { filename: misc/libinput-gestures.conf, dest: ~/.config/libinput-gestures.conf }
+    - { filename: misc/fcitx5.conf, dest: ~/.config/environment.d/fcitx5.conf }
 
 - name: "ALSA configuration"
   lineinfile:
