@@ -22,7 +22,10 @@
     - role: cimon-io.asdf
       asdf_user: "{{ USER_NAME }}"
       asdf_plugins:
-      - name: "python"
+        - name: "python"
+        - name: "awscli"
+          versions: [2.7.35]
+          global: 2.7.35
     - {role: base, tags: ['base']}
     - {role: de, tags: ['de']}
     - {role: misc, tags: ['misc']}
