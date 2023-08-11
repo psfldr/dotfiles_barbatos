@@ -32,6 +32,7 @@
       - asdf-vm
       - opendrop
       - notion-app
+      - ngrok
   become: yes
   become_user: aur_builder
 
