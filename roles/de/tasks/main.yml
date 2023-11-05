@@ -12,23 +12,45 @@
       - alsa-utils
       - pulseaudio
       - pulseaudio-equalizer
-      - pavucontrol
+      - pavucontrol-qt
       - bluez
       - bluez-utils
       - bluez-libs
       - pulseaudio-bluetooth
       - blueman
+      - bluedevil
       - gnome
       - dconf-editor
       - xf86-input-libinput
       - xorg-xinput
       - libinput
-      - rust
+      - rustup
       # TODO: packages of fcitx5-im group.
       - fcitx5
       - fcitx5-configtool
       - fcitx5-qt
       - fcitx5-gtk
+      # スクリーンショット
+      # https://wiki.archlinux.jp/index.php/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%AD%E3%83%A3%E3%83%97%E3%83%81%E3%83%A3
+      - maim
+      - xdotool
+      - xclip
+      # hyprland
+      - hyprland 
+      - hyprpaper
+      - kitty
+      - wofi
+      - dolphin
+      - dolphin-plugins
+      - qt5ct
+      - kvantum
+      # ファイルプレビュー
+      - kdegraphics-thumbnailers  # 画像ファイル、PDF、Blender アプリケーションファイル。
+      - libheif  # HEIF ファイル
+      - qt5-imageformats  # .webp、.tiff、.tga、.jp2 ファイル
+      - kdesdk-thumbnailers  # サムネイルシステムのプラグイン
+      - ffmpegthumbs  # 動画ファイル (ffmpeg ベース)
+      - taglib  # 音声ファイル
     state: present
   become: yes
 
@@ -37,8 +59,11 @@
     use: yay
     name:
       - ttf-cica
-      - libinput-gestures
       - fcitx5-mozc-ut
+      - kvantum-theme-nordic-git
+      - papirus-folders-nordic
+      - nordic-theme
+      - nordic-kde-git
   become: yes
   become_user: aur_builder
 
@@ -58,6 +83,9 @@
   with_items:
     - ~/.config/X11
     - ~/.config/environment.d
+    - ~/.config/gestures
+    - ~/.config/kitty/themes
+    - ~/.config/hypr
 
 - name: Ensure dotfiles (files) are symlinked
   file:
@@ -68,8 +96,12 @@
     - { filename: X11/xinitrc, dest: ~/.config/X11/xinitrc }
     - { filename: misc/xprofile, dest: ~/.xprofile }
     - { filename: misc/Xmodmap, dest: ~/.Xmodmap }
-    - { filename: misc/libinput-gestures.conf, dest: ~/.config/libinput-gestures.conf }
     - { filename: misc/fcitx5.conf, dest: ~/.config/environment.d/fcitx5.conf }
+    - { filename: misc/gestures.kdl, dest: ~/.config/gestures/gestures.kdl }
+    - { filename: misc/gestures.service, dest: ~/.config/systemd/user/gestures.service }
+    - { filename: misc/kitty.conf, dest: ~/.config/kitty/kitty.conf }
+    - { filename: misc/nordic.conf, dest: ~/.config/kitty/themes/nordic.conf }
+    - { filename: misc/hyprland.conf, dest: ~/.config/hypr/hyprland.conf }
 
 - name: "ALSA configuration"
   lineinfile:
@@ -124,3 +156,30 @@
     force: yes
   with_items:
     - { src: default.pa, dest: ~/.config/pulse/default.pa }
+
+# 3本指ドラッグ
+- name: Install "ferstar/gestures" Rust package
+  shell: cargo install --git https://github.com/ferstar/gestures.git
+
+- name: Make sure directories for "ferstar/gestures" exists
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - ~/.config/gestures
+
+- name: Ensure dotfiles (files) for "ferstar/gestures" are symlinked
+  file:
+    src: "{{ ansible_env.PWD }}/roles/de/files/{{ item.filename }}"
+    dest: "{{ item.dest }}"
+    state: link
+  with_items:
+    - { filename: misc/gestures.kdl, dest: ~/.config/gestures/gestures.kdl }
+    - { filename: misc/gestures.service, dest: ~/.config/systemd/user/gestures.service }
+
+- name: Make sure "ferstar/gestures" service is running
+  systemd:
+    name: gestures.service
+    state: started
+    scope: user
+    enabled: yes

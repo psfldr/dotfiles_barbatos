@@ -1,0 +1,14 @@
+[Unit]
+Description=Touchpad Gestures(with 3-finger drag performance improvements)
+Documentation=https://github.com/ferstar/gestures
+
+[Service]
+Environment=PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin
+Environment=DISPLAY=:0
+Type=simple
+ExecStart=/home/psfldr/.cargo/bin/gestures start
+ExecReload=/home/psfldr/.cargo/bin/gestures reload
+Restart=never
+
+[Install]
+WantedBy=default.target

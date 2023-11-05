@@ -10,6 +10,7 @@ Plug 'ryanoasis/vim-devicons'       " ファイルタイプアイコン
 Plug 'easymotion/vim-easymotion'    " easymotion
 Plug 'haya14busa/incsearch.vim'     " easymotion
 Plug 'haya14busa/incsearch-easymotion.vim' " easymotion
+Plug 'AlexvZyl/nordic.nvim', { 'branch': 'main' }
 call plug#end()
 
 """"""""""""""""""""""""""""""
@@ -17,7 +18,7 @@ call plug#end()
 """"""""""""""""""""""""""""""
 syntax enable
 set background=dark
-colorscheme nord
+colorscheme nordic
 
 """"""""""""""""""""""""""""""
 "" general

@@ -1,5 +1,5 @@
 {
-    "workbench.colorTheme": "Nord",
+    "workbench.colorTheme": "nordic-vscode",
     "omnisharp.useGlobalMono": "always",
     "omnisharp.path": "latest",
     "vim.insertModeKeyBindings": [

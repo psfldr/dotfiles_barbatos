@@ -25,6 +25,7 @@
   kewlfft.aur.aur:
     use: yay
     name:
+      - ghq
       - google-chrome
       - visual-studio-code-bin
       - chrome-gnome-shell
@@ -33,6 +34,8 @@
       - opendrop
       - notion-app
       - ngrok
+      - autokey-gtk
+      - vlc-wayland-git
   become: yes
   become_user: aur_builder
 
@@ -116,3 +119,25 @@
       - winetricks
     state: present
   become: yes
+
+# VR test
+# https://github.com/alvr-org/ALVR/wiki/Installation-guide
+- name: Install packages (vr test)
+  package:
+    name:
+      - rustup
+      - steam
+      - steam-native-runtime
+      - wqy-zenhei
+      - android-tools
+    state: present
+  become: yes
+
+- name: aur install (vr test)
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - alvr-git
+      - steam-fonts
+  become: yes
+  become_user: aur_builder
