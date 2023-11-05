@@ -55,6 +55,9 @@
   with_items:
     - { src: vscode/settings.json, dest: ~/.config/Code/User/settings.json }
     - { src: vscode/keybindings.json, dest: ~/.config/Code/User/keybindings.json }
+    - { src: vscode/keybindings.json, dest: ~/.config/Code/User/keybindings.json }
+    - { src: chrome-flags.conf, dest: ~/.config/chrome-flags.conf }
+    - { src: chrome-flags.conf, dest: ~/.config/chromium-flags.conf }
 
 # genshin test
 - name: Install packages (genshin test)

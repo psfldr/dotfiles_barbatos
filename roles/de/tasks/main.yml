@@ -30,6 +30,7 @@
       - fcitx5-configtool
       - fcitx5-qt
       - fcitx5-gtk
+      - fcitx5-nord
       # スクリーンショット
       # https://wiki.archlinux.jp/index.php/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%AD%E3%83%A3%E3%83%97%E3%83%81%E3%83%A3
       - maim
@@ -83,6 +84,7 @@
   with_items:
     - ~/.config/X11
     - ~/.config/environment.d
+    - ~/.config/fcitx5/conf
     - ~/.config/gestures
     - ~/.config/kitty/themes
     - ~/.config/hypr
@@ -97,6 +99,7 @@
     - { filename: misc/xprofile, dest: ~/.xprofile }
     - { filename: misc/Xmodmap, dest: ~/.Xmodmap }
     - { filename: misc/fcitx5.conf, dest: ~/.config/environment.d/fcitx5.conf }
+    - { filename: misc/classicui.conf, dest: ~/.config/fcitx5/conf/classicui.conf }
     - { filename: misc/gestures.kdl, dest: ~/.config/gestures/gestures.kdl }
     - { filename: misc/gestures.service, dest: ~/.config/systemd/user/gestures.service }
     - { filename: misc/kitty.conf, dest: ~/.config/kitty/kitty.conf }
