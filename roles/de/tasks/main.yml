@@ -86,29 +86,26 @@
     - ~/.config/X11
     - ~/.config/environment.d
     - ~/.config/fcitx5/conf
-    - ~/.config/gestures
     - ~/.config/kitty/themes
     - ~/.config/hypr
     - ~/.config/eww
 
 - name: Ensure dotfiles (files) are symlinked
   file:
-    src: "{{ ansible_env.PWD }}/roles/de/files/{{ item.filename }}"
-    dest: "{{ item.dest }}"
+    src: "{{ ansible_env.PWD }}/roles/de/files/{{ item }}"
+    dest: ~/{{ item }}
     state: link
   with_items:
-    - { filename: X11/xinitrc, dest: ~/.config/X11/xinitrc }
-    - { filename: misc/xprofile, dest: ~/.xprofile }
-    - { filename: misc/Xmodmap, dest: ~/.Xmodmap }
-    - { filename: misc/fcitx5.conf, dest: ~/.config/environment.d/fcitx5.conf }
-    - { filename: misc/classicui.conf, dest: ~/.config/fcitx5/conf/classicui.conf }
-    - { filename: misc/gestures.kdl, dest: ~/.config/gestures/gestures.kdl }
-    - { filename: misc/gestures.service, dest: ~/.config/systemd/user/gestures.service }
-    - { filename: misc/kitty.conf, dest: ~/.config/kitty/kitty.conf }
-    - { filename: misc/nordic.conf, dest: ~/.config/kitty/themes/nordic.conf }
-    - { filename: misc/hyprland.conf, dest: ~/.config/hypr/hyprland.conf }
-    - { filename: misc/eww.yuck, dest: ~/.config/eww/eww.yuck }
-    - { filename: misc/eww.scss, dest: ~/.config/eww/eww.scss }
+    - .xprofile
+    - .Xmodmap
+    - .config/X11/xinitrc
+    - .config/environment.d/fcitx5.conf
+    - .config/fcitx5/conf/classicui.conf
+    - .config/kitty/kitty.conf
+    - .config/kitty/themes/nordic.conf
+    - .config/hypr/hyprland.conf
+    - .config/eww/eww.yuck
+    - .config/eww/eww.scss
 
 - name: "ALSA configuration"
   lineinfile:
@@ -174,15 +171,16 @@
     state: directory
   with_items:
     - ~/.config/gestures
+    - ~/.config/systemd/user
 
 - name: Ensure dotfiles (files) for "ferstar/gestures" are symlinked
   file:
-    src: "{{ ansible_env.PWD }}/roles/de/files/{{ item.filename }}"
-    dest: "{{ item.dest }}"
+    src: "{{ ansible_env.PWD }}/roles/de/files/{{ item }}"
+    dest: ~/{{ item }}
     state: link
   with_items:
-    - { filename: misc/gestures.kdl, dest: ~/.config/gestures/gestures.kdl }
-    - { filename: misc/gestures.service, dest: ~/.config/systemd/user/gestures.service }
+    - .config/gestures/gestures.kdl
+    - .config/systemd/user/gestures.service
 
 - name: Make sure "ferstar/gestures" service is running
   systemd:
