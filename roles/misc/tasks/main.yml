@@ -18,6 +18,7 @@
       - blender
       - geary
       - aws-vault
+      - strawberry
     state: present
   become: yes
 
@@ -144,3 +145,51 @@
       - steam-fonts
   become: yes
   become_user: aur_builder
+
+# file sharing
+- name: Install packages (file sharing)
+  package:
+    name:
+      - samba
+    state: present
+  become: yes
+
+- name: Ensure setting files are symlinked
+  file:
+    src: "{{ ansible_env.PWD }}/roles/misc/files/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+  with_items:
+    - { src: smb.conf, dest: /etc/samba/smb.conf }
+  become: yes
+
+- name: Make sure the GDM service is running
+  systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - smb
+    - nmb
+  become: yes
+
+- name: Ensure group "sambashare" exists
+  group:
+    name: sambashare
+  become: yes
+
+- name: Ensure user psfldr in group sambashare
+  user:
+    name: psfldr
+    groups: sambashare
+    append: yes
+  become: yes
+
+- name: Make sure usershares directory
+  file:
+    path: /var/lib/samba/usershares
+    state: directory
+    owner: root
+    group: sambashare
+    mode: '1770'
+  become: yes
