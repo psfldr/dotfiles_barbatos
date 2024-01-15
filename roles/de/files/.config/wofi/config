@@ -1,0 +1,5 @@
+width=320
+print_command=true
+insensitive=true
+prompt= Hmm, what do you want to run?
+key_expand=Right

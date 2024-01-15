@@ -112,6 +112,9 @@
     - .config/hypr/hyprpaper.conf
     - .config/eww/eww.yuck
     - .config/eww/eww.scss
+    - .config/eww/scripts
+    - .config/wofi
+    - .config/Kvantum
 
 - name: "ALSA configuration"
   lineinfile:

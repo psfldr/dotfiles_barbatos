@@ -61,7 +61,7 @@
 (defpoll volume :interval "1s"
   "scripts/getvol")
 
-(defpoll time :interval "10s"
+(defpoll time :interval "1s"
   "date '+%Y-%m-%d(%a) %H:%M:%S'")
 
 (defwindow bar
