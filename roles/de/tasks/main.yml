@@ -43,12 +43,16 @@
       - wofi
       - dolphin
       - dolphin-plugins
-      - baloo5
+      - baloo
       - qt5ct
       - kvantum
-      - dunst
+      - kvantum-qt5
+      - mako
+      - polkit-kde-agent
       - networkmanager-qt5
       - network-manager-applet
+      # - swaylock
+      - swayidle
       # ファイルプレビュー
       - kdegraphics-thumbnailers  # 画像ファイル、PDF、Blender アプリケーションファイル。
       - libheif  # HEIF ファイル
@@ -71,6 +75,7 @@
       - nordic-kde-git
       - eww-wayland
       - hyprshot
+      - swaylock-effects
   become: yes
   become_user: aur_builder
 
@@ -89,11 +94,8 @@
     state: directory
   with_items:
     - ~/.config/X11
-    - ~/.config/environment.d
     - ~/.config/fcitx5/conf
     - ~/.config/kitty/themes
-    - ~/.config/hypr
-    - ~/.config/eww
 
 - name: Ensure dotfiles (files) are symlinked
   file:
@@ -104,17 +106,17 @@
     - .xprofile
     - .Xmodmap
     - .config/X11/xinitrc
-    - .config/environment.d/fcitx5.conf
+    - .config/environment.d
     - .config/fcitx5/conf/classicui.conf
     - .config/kitty/kitty.conf
     - .config/kitty/themes/nordic.conf
-    - .config/hypr/hyprland.conf
-    - .config/hypr/hyprpaper.conf
-    - .config/eww/eww.yuck
-    - .config/eww/eww.scss
-    - .config/eww/scripts
+    - .config/hypr
+    - .config/eww
     - .config/wofi
     - .config/Kvantum
+    - .config/mako
+    - .config/swaylock
+    - .config/qt5ct
 
 - name: "ALSA configuration"
   lineinfile:
@@ -169,31 +171,3 @@
     force: yes
   with_items:
     - { src: default.pa, dest: ~/.config/pulse/default.pa }
-
-# 3本指ドラッグ
-- name: Install "ferstar/gestures" Rust package
-  shell: cargo install --git https://github.com/ferstar/gestures.git
-
-- name: Make sure directories for "ferstar/gestures" exists
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - ~/.config/gestures
-    - ~/.config/systemd/user
-
-- name: Ensure dotfiles (files) for "ferstar/gestures" are symlinked
-  file:
-    src: "{{ ansible_env.PWD }}/roles/de/files/{{ item }}"
-    dest: ~/{{ item }}
-    state: link
-  with_items:
-    - .config/gestures/gestures.kdl
-    - .config/systemd/user/gestures.service
-
-- name: Make sure "ferstar/gestures" service is running
-  systemd:
-    name: gestures.service
-    state: started
-    scope: user
-    enabled: yes

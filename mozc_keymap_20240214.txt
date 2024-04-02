@@ -1,0 +1,83 @@
+status	key	command
+Composition	Backspace	Backspace
+Composition	Ctrl b	MoveCursorLeft
+Composition	Left	MoveCursorLeft
+Composition	Ctrl f	MoveCursorRight
+Composition	Right	MoveCursorRight
+Composition	Ctrl a	MoveCursorToBeginning
+Composition	Home	MoveCursorToBeginning
+Composition	Ctrl e	MoveCursorToEnd
+Composition	End	MoveCursorToEnd
+Composition	Ctrl h	Backspace
+Composition	Ctrl d	Delete
+Composition	Delete	Delete
+Composition	ESC	Cancel
+Composition	Ctrl m	Commit
+Composition	Enter	Commit
+Composition	Muhenkan	IMEOff
+Composition	Henkan	InputModeHiragana
+Composition	Space	Convert
+Composition	Ctrl p	Convert
+Composition	Ctrl n	Convert
+Composition	Tab	PredictAndConvert
+Composition	F10	ConvertToHalfAlphanumeric
+Composition	F6	ConvertToHiragana
+Composition	F7	ConvertToFullKatakana
+Composition	F8	ConvertToHalfWidth
+Composition	F9	ConvertToFullAlphanumeric
+Conversion	Left	SegmentFocusLeft
+Conversion	Ctrl b	SegmentFocusLeft
+Conversion	Right	SegmentFocusRight
+Conversion	Ctrl f	SegmentFocusRight
+Conversion	Ctrl a	SegmentFocusFirst
+Conversion	Ctrl e	SegmentFocusLast
+Conversion	Shift Left	SegmentWidthShrink
+Conversion	Ctrl Shift b	SegmentFocusRight
+Conversion	Shift Right	SegmentWidthExpand
+Conversion	Ctrl Shift f	SegmentFocusRight
+Conversion	Space	ConvertNext
+Conversion	Down	ConvertNext
+Conversion	Ctrl n	ConvertNext
+Conversion	Tab	PredictAndConvert
+Conversion	Shift Space	ConvertPrev
+Conversion	Up	ConvertPrev
+Conversion	Shift Tab	ConvertPrev
+Conversion	Ctrl p	ConvertPrev
+Conversion	Ctrl m	Commit
+Conversion	Enter	Commit
+Conversion	ESC	Cancel
+Conversion	Backspace	Cancel
+Conversion	Ctrl d	Cancel
+Conversion	Ctrl h	Cancel
+Conversion	Delete	Cancel
+Conversion	Muhenkan	IMEOff
+DirectInput	Ctrl Backspace	Undo
+DirectInput	Space	InsertSpace
+DirectInput	Muhenkan	IMEOff
+DirectInput	Henkan	InputModeHiragana
+DirectInput	Ctrl b	MoveCursorLeft
+DirectInput	Left	MoveCursorLeft
+DirectInput	Ctrl f	MoveCursorRight
+DirectInput	Right	MoveCursorRight
+DirectInput	Ctrl a	MoveCursorToBeginning
+DirectInput	Home	MoveCursorToBeginning
+DirectInput	Ctrl e	MoveCursorToEnd
+DirectInput	End	MoveCursorToEnd
+DirectInput	Ctrl h	Backspace
+DirectInput	Ctrl d	Delete
+DirectInput	Delete	Delete
+Precomposition	Ctrl Backspace	Undo
+Precomposition	Space	InsertSpace
+Precomposition	Muhenkan	IMEOff
+Precomposition	Henkan	InputModeHiragana
+Precomposition	Ctrl b	MoveCursorLeft
+Precomposition	Left	MoveCursorLeft
+Precomposition	Ctrl f	MoveCursorRight
+Precomposition	Right	MoveCursorRight
+Precomposition	Ctrl a	MoveCursorToBeginning
+Precomposition	Home	MoveCursorToBeginning
+Precomposition	Ctrl e	MoveCursorToEnd
+Precomposition	End	MoveCursorToEnd
+Precomposition	Ctrl h	Backspace
+Precomposition	Ctrl d	Delete
+Precomposition	Delete	Delete

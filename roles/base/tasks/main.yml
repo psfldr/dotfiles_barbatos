@@ -28,7 +28,15 @@
       - base-devel
       - git
       - neovim
+      - ntp
     state: present
+  become: yes
+
+- name: Make sure the NTP service is running
+  systemd:
+    name: ntpd.service
+    state: started
+    enabled: yes
   become: yes
 
 # dotfiles
@@ -66,7 +74,7 @@
   args:
     creates: ~/.config/nvim/plugged
     executable: /bin/bash
-    warn: no
+    # warn: no
 
 - name: Install AUR helper
   kewlfft.aur.aur:

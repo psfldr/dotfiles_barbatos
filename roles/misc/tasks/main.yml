@@ -19,6 +19,7 @@
       - geary
       - aws-vault
       - strawberry
+      - gimp
     state: present
   become: yes
 
@@ -36,7 +37,8 @@
       - notion-app
       - ngrok
       - autokey-gtk
-      - vlc-wayland-git
+      - vlc-git
+      - ntfsprogs-ntfs3
   become: yes
   become_user: aur_builder
 
@@ -151,6 +153,7 @@
   package:
     name:
       - samba
+      - ntfs-3g
     state: present
   become: yes
 

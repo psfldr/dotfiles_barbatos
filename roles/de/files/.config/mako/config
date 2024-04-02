@@ -1,0 +1,32 @@
+sort=-time
+layer=overlay
+background-color=#242933CC
+width=300
+height=110
+margin=20,20,5
+border-size=1
+border-color=#BBC3D4AA
+border-radius=4
+icons=1
+max-icon-size=32
+icon-path=/usr/share/icons/Nordic-darker:/usr/share/icons/Papirus-Dark/symbolic/emotes:/usr/share/icons/Papirus-Dark
+# default-timeout=5000
+# ignore-timeout=1
+font=Cica 10
+text-color=#BBC3D4FF
+progress-color=#5E81AC66
+on-notify=exec mpv /usr/share/sounds/freedesktop/stereo/message.oga
+
+group-by=summary
+
+[urgency=low]
+text-color=#BBC3D4AA
+
+[urgency=normal]
+
+[urgency=high]
+border-color=#bf616a
+
+# [category=mpd]
+# default-timeout=2000
+# group-by=category

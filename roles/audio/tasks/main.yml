@@ -6,6 +6,7 @@
       - cadence
       - pulseaudio-jack
       - reaper
+      - lshw
       # wineでinstallしたVSTプラグインをlinuxと同期する。
       - yabridge
       - yabridgectl
@@ -19,3 +20,10 @@
 #       line: 'options snd_hda_intel model=alc256-asus-mic power_save=0 power_save_controller=N'
 #       create: yes
 #   become: yes
+
+- name: "ALSA MIDI driverロード設定"
+  lineinfile:
+      path: /etc/modules-load.d/alsamidi.conf
+      line: 'snd_seq_midi'
+      create: yes
+  become: yes
