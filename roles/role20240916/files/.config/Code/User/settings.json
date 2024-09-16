@@ -1,0 +1,52 @@
+{
+    "omnisharp.useGlobalMono": "always",
+    "omnisharp.path": "latest",
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j", "j"],
+            "after": ["<Esc>"]
+        }
+    ],
+    "editor.minimap.maxColumn": 0,
+    "vim.easymotion": true,
+    "vim.leader": "<space>",
+    "editor.fontFamily": "'Hackgen Console NF'",
+    "window.titleBarStyle": "custom",
+    "git.confirmSync": false,
+    "git.enableSmartCommit": true,
+    "git.detectSubmodules": false,
+    "git.detectSubmodulesLimit": 0,
+    "extensions.ignoreRecommendations": true,
+    "terminal.integrated.fontSize": 15,
+    "editor.rulers": [
+        79
+    ],
+    "python.terminal.activateEnvironment": false,
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "workbench.colorTheme": "Nordic King",
+    "editor.fontSize": 15,
+    "terminal.integrated.profiles.linux": {
+
+        "bash": {
+            "path": "bash",
+            "icon": "terminal-bash"
+        },
+        "zsh": {
+            "path": "zsh"
+        },
+        "fish": {
+            "path": "fish"
+        },
+        "tmux": {
+            "path": "tmux",
+            "icon": "terminal-tmux"
+        },
+        "pwsh": {
+            "path": "pwsh",
+            "icon": "terminal-powershell"
+        }
+    },
+    "terminal.integrated.defaultProfile.linux": "fish"
+}
