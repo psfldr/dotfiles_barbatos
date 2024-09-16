@@ -13,23 +13,20 @@
           - ansible_env.USER == '{{ USER_NAME }}'
         fail_msg: "user must be {{ USER_NAME }}"
         success_msg: "user is {{ USER_NAME }}"
-    - name: Run the equivalent of "pacman -Syu" as a separate step
-      pacman:
-        update_cache: yes
-        upgrade: yes
-      become: yes
+    # - name: Run the equivalent of "pacman -Syu" as a separate step
+    #   pacman:
+    #     update_cache: yes
+    #     upgrade: yes
+    #   become: yes
   roles:
+    - role: role20240916
     - role: cimon-io.asdf
       asdf_user: "{{ USER_NAME }}"
+      asdf_group: "{{ USER_NAME }}"
       asdf_plugins:
-        - name: "python"
-        - name: "awscli"
+        - name: python
+          versions: [3.12.6]
+          global: 3.12.6
+        - name: awscli
           versions: [2.7.35]
           global: 2.7.35
-    - {role: base, tags: ['base']}
-    - {role: de, tags: ['de']}
-    - {role: misc, tags: ['misc']}
-    - {role: docker, tags: ['docker']}
-    - {role: unity, tags: ['unity']}
-    - {role: audio, tags: ['audio']}
-

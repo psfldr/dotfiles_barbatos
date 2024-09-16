@@ -44,43 +44,6 @@
         comment: "{{ USER_NAME }}"
         groups:
           - wheel
-          - audio
-
-    - name: Rename id_rsa.pub -> authorized_keys
-      shell: "mv ~{{ USER_NAME }}/.ssh/{id_rsa.pub,authorized_keys}"
-      args:
-        creates: "~{{ USER_NAME }}/.ssh/authorized_keys"
-
-    - name: Copy secret key to root
-      copy:
-        src: "/home/{{ USER_NAME }}/.ssh/id_rsa"
-        dest: "/root/id_rsa_{{ ansible_hostname }}_{{ USER_NAME }}"
-        mode: 0600
-
-    - name: Install packages
-      package:
-        name:
-          - sudo
-          - avahi
-          - nss-mdns
-        state: present
-
-    # Setup Avahi
-    # https://wiki.archlinux.jp/index.php/Avahi#.E3.83.9B.E3.82.B9.E3.83.88.E5.90.8D.E3.81.AE.E8.A7.A3.E6.B1.BA
-    - name: Make sure a service unit is running
-      systemd:
-        name: avahi-daemon.service
-        state: started
-        enabled: yes
-
-    #  「hosts」の行に関して、「mdns_minimal」が入っていない場合のみ
-    # 「resolve\s」の手前のスペースを
-    # 「 mdns_minimal [NOTFOUND=return] 」に置き換える。
-    - name: Make sure 'mdns_minimal [NOTFOUND=return]' exists in the line starts with 'hosts'
-      replace:
-        path: /etc/nsswitch.conf
-        regexp: '(?!.*mdns_minimal)(hosts:.*)(\s)(resolve\s.*)'
-        replace: '\1 mdns_minimal [NOTFOUND=return] \3'
 
     - name: Create user to aur_builder
       user:

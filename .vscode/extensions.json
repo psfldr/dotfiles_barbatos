@@ -1,7 +1,6 @@
 {
   "recommendations": [
     "arcticicestudio.nord-visual-studio-code",
-    "BattleBas.kivy-vscode",
     "janisdd.vscode-edit-csv",
     "kleber-swf.unity-code-snippets",
     "mhutchie.git-graph",
@@ -14,7 +13,6 @@
     "ms-toolsai.jupyter-renderers",
     "ms-vscode-remote.remote-containers",
     "njpwerner.autodocstring",
-    "nowsci.glassit-linux",
     "skyapps.fish-vscode",
     "TakumiI.markdowntable",
     "Unity.unity-debug",
