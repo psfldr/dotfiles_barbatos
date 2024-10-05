@@ -1,4 +1,4 @@
-- name: Install packages
+- name: 公式のパッケージをインストールする
   package:
     name:
       - less
@@ -11,10 +11,11 @@
       - neovim
       - unzip
       - wl-clipboard
+      - gimp
     state: present
   become: yes
 
-- name: aur install
+- name: AURのパッケージをインストールする
   kewlfft.aur.aur:
     use: yay
     name:
@@ -26,7 +27,7 @@
   become: yes
   become_user: aur_builder
 
-- name: Make sure directories exists
+- name: ディレクトリを作成する
   file:
     path: "{{ item }}"
     state: directory
@@ -38,7 +39,7 @@
     - ~/.config/neofetch
     - ~/.config/fish
 
-- name: Ensure dotfiles (files) are symlinked
+- name: ユーザーレベルの設定ファイルのリンクを作成する
   file:
     src: "{{ ansible_env.PWD }}/roles/{{ ansible_role_name }}/files/{{ item }}"
     dest: ~/{{ item }}
@@ -53,21 +54,25 @@
     - .config/neofetch/config.conf
     - .config/fish/config.fish
     - .config/fish/fzf_key_bindings.fish
+    - .config/starship.toml
 
-- name: Ensure dotfiles (template) are placed
+- name: テンプレートから設定ファイルを作成して配置する
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
   with_items:
     - { src: gitconfig.j2, dest: ~/.config/git/config }
 
-- name: Download Vim-Plug script
+- name: Vim-Plugのスクリプトをダウンロードする
   get_url:
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     dest: ~/.local/share/nvim/site/autoload/plug.vim
 
-- name: Install Vim-Plug plugins
+- name: Vim-Plugのプラグインをインストールする
   shell: nvim --headless +PlugInstall +qall
   args:
     creates: ~/.config/nvim/plugged
     executable: /bin/bash
+
+- include_tasks: bluetooth.yml
+- include_tasks: multimedia.yml

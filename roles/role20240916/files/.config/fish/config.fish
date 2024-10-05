@@ -10,11 +10,12 @@ function fish_user_key_bindings
     end
 end
 
+
 source /opt/asdf-vm/asdf.fish
 if status is-interactive
     # Commands to run in interactive sessions can go here
     starship init fish | source
-    neofetch
     fish_user_key_bindings
     fzf_key_bindings
+    neofetch
 end

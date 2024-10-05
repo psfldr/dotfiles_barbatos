@@ -1,0 +1,20 @@
+- name: 公式のパッケージをインストールする
+  package:
+    name:
+      # 画像
+      - gimp
+      - gimp-plugin-gmic
+      - darktable
+      - eog
+      # 音楽
+      - strawberry
+    state: present
+  become: yes
+
+# - name: AURのパッケージをインストールする
+#   kewlfft.aur.aur:
+#     use: yay
+#     name:
+#       - amarok
+#   become: yes
+#   become_user: aur_builder
