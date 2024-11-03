@@ -8,13 +8,21 @@
       - eog
       # 音楽
       - strawberry
+      - gst-plugins-bad
+      - gst-plugin-spotify
     state: present
   become: yes
 
-# - name: AURのパッケージをインストールする
-#   kewlfft.aur.aur:
-#     use: yay
-#     name:
-#       - amarok
-#   become: yes
-#   become_user: aur_builder
+- name: AURのパッケージをインストールする
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - gimp-plugin-export-layers
+  become: yes
+  become_user: aur_builder
+
+- name: Flatpakをインストールする
+  flatpak:
+    name: org.zrythm.Zrythm
+    state: present
+

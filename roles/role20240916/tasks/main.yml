@@ -1,17 +1,38 @@
+- name: wineインストールのためにmultilibリポジトリを有効化する
+  replace:
+    path: /etc/pacman.conf
+    regexp: '^#\[multilib\]\n#Include = /etc/pacman.d/mirrorlist'
+    replace: |-
+        [multilib]
+        Include = /etc/pacman.d/mirrorlist
+  become: yes
+
 - name: 公式のパッケージをインストールする
   package:
     name:
+      # 入力メソッド
+      - fcitx5  
+      - fcitx5-configtool
+      - fcitx5-mozc
+      # シェル・CLIツール
+      - fish  
+      - fisher
+      - neofetch  # ターミナルのシステム情報表示
+      - starship  # ターミナルプロンプト設定
       - less
       - fzf
-      - fcitx5
-      - fcitx5-configtool
-      - fish
-      - neofetch
-      - starship
       - neovim
       - unzip
       - wl-clipboard
-      - gimp
+      - nerdctl  # dockerコマンド代替
+      - tree  # ディレクトリ表示ツール
+      - uv  # pythonパッケージ管理
+      # windowsエミュレーション
+      - wine  
+      - winetricks
+      - wine-gecko
+      - wine-mono
+      - kdialog
     state: present
   become: yes
 
@@ -20,10 +41,12 @@
     use: yay
     name:
       - ttf-hackgen  # プログラミングフォント 白源 (はくげん／HackGen)
-      - fcitx5-mozc-ut
-      - ghq
-      - visual-studio-code-bin
+      - ghq  # リポジトリ管理
+      - visual-studio-code-bin  #VSCode
       - asdf-vm
+      - rancher-desktop
+      - xkeysnail  # キーバインド変更
+      - networkd-notify-git  # ネットワークについての通知
   become: yes
   become_user: aur_builder
 
@@ -38,6 +61,7 @@
     - ~/.local/share/nvim/site/autoload
     - ~/.config/neofetch
     - ~/.config/fish
+    - ~/.config/fisher
 
 - name: ユーザーレベルの設定ファイルのリンクを作成する
   file:
@@ -74,5 +98,14 @@
     creates: ~/.config/nvim/plugged
     executable: /bin/bash
 
+- name: fisherでfishのプラグインをインストールする
+  shell: fish -lc "fisher install {{ item }}"
+  args:
+    creates: ~/.config/fisher/github.com/{{ item }}
+  with_items:
+    - decors/fish-ghq
+    - jethrokuan/fzf
+
+- include_tasks: file_server.yml
 - include_tasks: bluetooth.yml
 - include_tasks: multimedia.yml

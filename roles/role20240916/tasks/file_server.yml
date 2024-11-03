@@ -1,0 +1,54 @@
+- name: 公式のパッケージをインストールする
+  package:
+    name:
+      # ファイルサーバー
+      - samba
+      - ntfs-3g  
+      - kdenetwork-filesharing  
+    state: present
+  become: yes
+
+- name: システムレベルの設定ファイルのリンクを作成する
+  file:
+    src: "{{ ansible_env.PWD }}/roles/{{ ansible_role_name }}/files/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+  with_items:
+    - src: system/smb.conf
+      dest: /etc/samba/smb.conf
+  become: yes
+
+- name: サービスを起動する
+  systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - smb
+    - nmb
+  become: yes
+
+- name: Ensure group "sambashare" exists
+  group:
+    name: sambashare
+  become: yes
+
+- name: Ensure guest user in group sambashare
+  user:
+    name: sambaguest
+    comment: Guest User
+    groups: sambashare
+    shell: /bin/false
+    create_home: no
+    password: '*'
+    append: yes
+  become: yes
+
+- name: Make sure usershares directory
+  file:
+    path: /var/lib/samba/usershares
+    state: directory
+    owner: root
+    group: sambashare
+    mode: '1770'
+  become: yes

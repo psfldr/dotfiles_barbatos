@@ -15,7 +15,11 @@ source /opt/asdf-vm/asdf.fish
 if status is-interactive
     # Commands to run in interactive sessions can go here
     starship init fish | source
-    fish_user_key_bindings
+    # fish_user_key_bindings
     fzf_key_bindings
     neofetch
 end
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+set --export --prepend PATH "/home/psfldr/.rd/bin"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

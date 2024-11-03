@@ -25,8 +25,9 @@
       asdf_group: "{{ USER_NAME }}"
       asdf_plugins:
         - name: python
-          versions: [3.12.6]
-          global: 3.12.6
+          versions:
+            - 3.13.0
+          global: system
         - name: awscli
           versions: [2.7.35]
           global: 2.7.35
